@@ -76,6 +76,7 @@ class Application(object):
                 <menuitem action="New" />
                 <menuitem action="Open" />
                 <menuitem action="SaveAs" />
+                <menuitem action="Refresh" />
                 <separator />
                 <menuitem action="Apply" />
                 <menuitem action="LayoutSettings" />
@@ -99,6 +100,7 @@ class Application(object):
         </menubar>
         <toolbar name="ToolBar">
             <toolitem action="Apply" />
+            <toolitem action="Refresh" />
             <separator />
             <toolitem action="New" />
             <toolitem action="Open" />
@@ -118,6 +120,7 @@ class Application(object):
             ("New", gtk.STOCK_NEW, None, None, None, self.do_new),
             ("Open", gtk.STOCK_OPEN, None, None, None, self.do_open),
             ("SaveAs", gtk.STOCK_SAVE_AS, None, None, None, self.do_save_as),
+            ("Refresh", gtk.STOCK_REFRESH, None, None, None, self.do_refresh),
 
             ("Apply", gtk.STOCK_APPLY, None, '<Control>Return', None, self.do_apply),
             ("LayoutSettings", gtk.STOCK_PROPERTIES, None, '<Alt>Return', None, self.do_open_properties),
@@ -247,6 +250,10 @@ class Application(object):
             f = filenames[0]
             if not f.endswith('.sh'): f = f + '.sh'
             self.widget.save_to_file(f, self.filetemplate)
+
+    @actioncallback
+    def do_refresh(self):
+        self.filetemplate = self.widget.load_from_x()
 
     def _new_file_dialog(self, title, type, buttontype):
         d = gtk.FileChooserDialog(title, None, type)
